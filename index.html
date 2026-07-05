@@ -16,12 +16,11 @@
             --text-secondary: #222222;
             --text-muted: #555555;
             --border: #111111;
-            --accent-saffron: #ff671f; /* Official India Saffron */
-            --accent-white: #ffffff;
-            --accent-green: #046a38; /* Official India Green */
-            --accent-blue: #06038d;  /* Ashoka Chakra Blue */
+            --accent-saffron: #ff671f;
+            --accent-green: #046a38;
+            --accent-blue: #06038d;
             --map-fill: #e2e8f0;
-            --map-stroke: #111111;
+            --map-stroke: #475569;
             --intensity-high: #b91c1c;
             --intensity-med: #d97706;
             --intensity-low: #15803d;
@@ -37,7 +36,7 @@
             --text-muted: #9ca3af;
             --border: #ffffff;
             --map-fill: #222222;
-            --map-stroke: #ffffff;
+            --map-stroke: #94a3b8;
         }
 
         * {
@@ -78,19 +77,13 @@
             width: 100%;
         }
 
-        /* Master Indian Flag Tricolor Typography Styling */
+        /* High-Contrast Tricolor Title Gradient */
         header h1 {
             font-size: calc(2.5rem * var(--font-scale));
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: -2px;
-            background: linear-gradient(90deg, #ff671f 0%, #ff671f 35%, #06038d 48%, #06038d 52%, #046a38 65%, #046a38 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        [data-theme="dark"] header h1 {
-            background: linear-gradient(90deg, #ff671f 0%, #ff671f 35%, #ffffff 48%, #ffffff 52%, #046a38 65%, #046a38 100%);
+            background: linear-gradient(90deg, #ff671f 0%, #ff671f 40%, #06038d 48%, #06038d 52%, #046a38 60%, #046a38 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -146,7 +139,7 @@
             font-size: calc(0.95rem * var(--font-scale));
             height: 44px;
             padding: 0 16px;
-            border-radius: 0px; /* Editorial square look */
+            border-radius: 0px;
             cursor: pointer;
             font-weight: 800;
             color: var(--text-primary);
@@ -222,33 +215,35 @@
 
         .map-container {
             width: 100%;
-            max-width: 440px;
+            max-width: 500px;
             height: auto;
         }
 
-        .map-region {
+        /* High-fidelity interactive state vectors styling */
+        .map-state {
             fill: var(--map-fill);
             stroke: var(--map-stroke);
-            stroke-width: 3;
+            stroke-width: 1.5;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .map-region:hover {
-            fill: rgba(0,0,0,0.1);
-        }
-        [data-theme="dark"] .map-region:hover {
-            fill: rgba(255,255,255,0.15);
+        .map-state:hover {
+            fill: rgba(255, 103, 31, 0.2);
+            stroke: #ff671f;
+            stroke-width: 2.5;
         }
 
-        .map-region.active-region {
+        .map-state.active-state {
             fill: #046a38;
             stroke: #ffffff;
+            stroke-width: 2.5;
         }
 
-        .map-label {
+        .state-label-text {
             fill: var(--text-primary);
-            font-size: 14px;
-            font-weight: 900;
+            font-size: 10px;
+            font-weight: 800;
             pointer-events: none;
             text-anchor: middle;
         }
@@ -344,7 +339,6 @@
             text-transform: uppercase;
         }
 
-        /* Broad Editorial Style Trends Container Layout Block */
         .trends-panel {
             background: var(--bg-main);
             border: 2px solid var(--border);
@@ -422,21 +416,61 @@
                 <button class="zone-btn" id="btn-north" onclick="switchZone('north', this)">North</button>
                 <button class="zone-btn" id="btn-south" onclick="switchZone('south', this)">South</button>
                 <button class="zone-btn" id="btn-east" onclick="switchZone('east', this)">East</button>
-                <button class="zone-btn" id="btn-west" onclick="switchZone('west', this)">West & Cen</button>
+                <button class="zone-btn" id="btn-west" onclick="switchZone('west', this)">West & Central</button>
             </div>
         </div>
 
         <div class="map-section" id="mapSection">
             <h3 style="margin-bottom: 20px; font-weight:900; font-size: calc(1.2rem * var(--font-scale)); text-transform: uppercase; letter-spacing: -0.5px;">Select a region to read latest news</h3>
-            <svg class="map-container" viewBox="0 0 400 470">
-                <path class="map-region" id="map-north" d="M 170 140 L 140 100 L 155 40 L 195 20 L 225 55 L 210 115 L 245 140 L 215 180 L 160 170 Z" onclick="handleMapClick('north')"></path>
-                <text x="185" y="95" class="map-label">NORTH</text>
-                <path class="map-region" id="map-west" d="M 60 250 L 130 200 L 160 170 L 215 180 L 235 240 L 225 300 L 135 320 L 95 295 Z" onclick="handleMapClick('west')"></path>
-                <text x="145" y="255" class="map-label">WEST & CEN</text>
-                <path class="map-region" id="map-east" d="M 215 180 L 245 140 L 285 155 L 300 135 L 350 135 L 370 175 L 315 220 L 235 240 Z" onclick="handleMapClick('east')"></path>
-                <text x="290" y="185" class="map-label">EAST</text>
-                <path class="map-region" id="map-south" d="M 135 320 L 225 300 L 235 240 L 255 315 L 210 435 L 175 390 Z" onclick="handleMapClick('south')"></path>
-                <text x="195" y="355" class="map-label">SOUTH</text>
+            
+            <!-- High-Fidelity State-by-State Geographic India Map Blueprint -->
+            <svg class="map-container" viewBox="0 0 400 500">
+                <!-- Jammu & Kashmir / Ladakh Grid -->
+                <path class="map-state" id="state-jk" d="M 160 40 L 195 20 L 225 55 L 210 115 L 170 140 L 140 100 Z" onclick="handleStateDirectClick('north')"></path>
+                <!-- Punjab -->
+                <path class="map-state" id="state-punjab" d="M 140 100 L 170 110 L 165 145 L 135 135 Z" onclick="handleStateDirectClick('north')"></path>
+                <!-- Himachal -->
+                <path class="map-state" id="state-himachal" d="M 170 110 L 210 115 L 200 140 L 165 145 Z" onclick="handleStateDirectClick('north')"></path>
+                <!-- Uttarakhand -->
+                <path class="map-state" id="state-uttarakhand" d="M 200 140 L 235 145 L 215 180 L 185 165 Z" onclick="handleStateDirectClick('north')"></path>
+                <!-- Haryana / Delhi -->
+                <path class="map-state" id="state-haryana" d="M 165 145 L 185 165 L 170 190 L 145 175 Z" onclick="handleStateDirectClick('north')"></path>
+                <!-- Rajasthan -->
+                <path class="map-state" id="state-rajasthan" d="M 60 210 L 145 175 L 170 190 L 150 250 L 80 260 Z" onclick="handleStateDirectClick('north')"></path>
+                <!-- Uttar Pradesh -->
+                <path class="map-state" id="state-up" d="M 170 190 L 215 180 L 265 210 L 225 250 L 175 220 Z" onclick="handleStateDirectClick('north')"></path>
+
+                <!-- Gujarat -->
+                <path class="map-state" id="state-gujarat" d="M 40 260 L 95 260 L 115 300 L 70 320 Z" onclick="handleStateDirectClick('west')"></path>
+                <!-- Madhya Pradesh -->
+                <path class="map-state" id="state-mp" d="M 115 260 L 175 220 L 225 250 L 215 310 L 135 315 Z" onclick="handleStateDirectClick('west')"></path>
+                <!-- Maharashtra -->
+                <path class="map-state" id="state-maharashtra" d="M 95 320 L 135 315 L 215 310 L 195 380 L 110 360 Z" onclick="handleStateDirectClick('west')"></path>
+                <!-- Chhattisgarh -->
+                <path class="map-state" id="state-chhattisgarh" d="M 215 250 L 245 265 L 235 330 L 205 325 Z" onclick="handleStateDirectClick('west')"></path>
+
+                <!-- Bihar -->
+                <path class="map-state" id="state-bihar" d="M 265 210 L 310 215 L 300 250 L 255 245 Z" onclick="handleStateDirectClick('east')"></path>
+                <!-- West Bengal / Jharkhand / Odisha -->
+                <path class="map-state" id="state-wb-jh" d="M 255 245 L 300 250 L 315 290 L 260 300 Z" onclick="handleStateDirectClick('east')"></path>
+                <path class="map-state" id="state-odisha" d="M 235 330 L 265 300 L 285 345 L 240 375 Z" onclick="handleStateDirectClick('east')"></path>
+                <!-- North-East Cluster -->
+                <path class="map-state" id="state-ne" d="M 310 215 L 350 205 L 380 220 L 360 260 L 320 250 Z" onclick="handleStateDirectClick('east')"></path>
+
+                <!-- Andhra Pradesh / Telangana -->
+                <path class="map-state" id="state-ap" d="M 195 380 L 235 330 L 260 380 L 200 425 Z" onclick="handleStateDirectClick('south')"></path>
+                <!-- Karnataka -->
+                <path class="map-state" id="state-karnataka" d="M 110 360 L 195 380 L 175 445 L 130 420 Z" onclick="handleStateDirectClick('south')"></path>
+                <!-- Kerala -->
+                <path class="map-state" id="state-kerala" d="M 130 420 L 155 445 L 145 480 L 125 470 Z" onclick="handleStateDirectClick('south')"></path>
+                <!-- Tamil Nadu -->
+                <path class="map-state" id="state-tn" d="M 155 445 L 175 445 L 185 485 L 145 480 Z" onclick="handleStateDirectClick('south')"></path>
+
+                <!-- Core Regional Labels -->
+                <text x="180" y="150" class="state-label-text">NORTH</text>
+                <text x="150" y="300" class="state-label-text">WEST & CENTRAL</text>
+                <text x="280" y="270" class="state-label-text">EAST</text>
+                <text x="170" y="410" class="state-label-text">SOUTH</text>
             </svg>
         </div>
 
@@ -806,7 +840,7 @@
         function switchZone(zone, buttonElement) {
             document.querySelectorAll('.zone-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.home-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.map-region').forEach(reg => reg.classList.remove('active-region'));
+            document.querySelectorAll('.map-state').forEach(reg => reg.classList.remove('active-state'));
             
             if (buttonElement) buttonElement.classList.add('active');
             else {
@@ -815,11 +849,38 @@
             }
 
             if (zone !== 'all') {
-                const activeMapPart = document.getElementById(`map-${zone}`);
-                if (activeMapPart) activeMapPart.classList.add('active-region');
+                // Highlight the matching states grouped under that region
+                if(zone === 'north') {
+                    document.getElementById('state-jk').classList.add('active-state');
+                    document.getElementById('state-punjab').classList.add('active-state');
+                    document.getElementById('state-himachal').classList.add('active-state');
+                    document.getElementById('state-uttarakhand').classList.add('active-state');
+                    document.getElementById('state-haryana').classList.add('active-state');
+                    document.getElementById('state-rajasthan').classList.add('active-state');
+                    document.getElementById('state-up').classList.add('active-state');
+                } else if(zone === 'west') {
+                    document.getElementById('state-gujarat').classList.add('active-state');
+                    document.getElementById('state-mp').classList.add('active-state');
+                    document.getElementById('state-maharashtra').classList.add('active-state');
+                    document.getElementById('state-chhattisgarh').classList.add('active-state');
+                } else if(zone === 'east') {
+                    document.getElementById('state-bihar').classList.add('active-state');
+                    document.getElementById('state-wb-jh').classList.add('active-state');
+                    document.getElementById('state-odisha').classList.add('active-state');
+                    document.getElementById('state-ne').classList.add('active-state');
+                } else if(zone === 'south') {
+                    document.getElementById('state-ap').classList.add('active-state');
+                    document.getElementById('state-karnataka').classList.add('active-state');
+                    document.getElementById('state-kerala').classList.add('active-state');
+                    document.getElementById('state-tn').classList.add('active-state');
+                }
             }
 
             renderDashboard(zone);
+        }
+
+        function handleStateDirectClick(zone) {
+            switchZone(zone, null);
         }
 
         function handleMapClick(zone) {
