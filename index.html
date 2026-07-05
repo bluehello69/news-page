@@ -68,20 +68,27 @@
             letter-spacing: -0.5px;
         }
 
-        .theme-toggle {
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
             background: transparent;
             border: 1px solid var(--border);
             font-size: 1.1rem;
-            width: 40px;
             height: 40px;
+            padding: 0 12px;
             border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .theme-toggle:hover { background: var(--accent-glow); }
+        .action-btn:hover { background: var(--accent-glow); }
 
         .zones-grid {
             display: grid;
@@ -247,7 +254,10 @@
     <div class="wrapper">
         <header>
             <h1>Always Live</h1>
-            <button class="theme-toggle" id="modeToggle" onclick="toggleTheme()">🌙</button>
+            <div class="header-actions">
+                <button class="action-btn" onclick="refreshPage()">Refresh ↻</button>
+                <button class="action-btn" id="modeToggle" onclick="toggleTheme()">🌙</button>
+            </div>
         </header>
 
         <div class="zones-grid">
@@ -386,6 +396,11 @@
             
             body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             btn.innerHTML = isDark ? '🌙' : '☀️';
+        }
+
+        // Fresh trigger to cleanly reload everything
+        function refreshPage() {
+            window.location.reload();
         }
 
         renderDashboard('all');
