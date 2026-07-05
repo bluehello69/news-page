@@ -6,50 +6,39 @@
     <title>Always Live | National Fact Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Importing Inter for data and Playfair Display for a premium traditional newspaper masthead look -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <!-- Premium Editorial Fonts: Playfair Display for headers, Inter for clean data reading -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Rich, highly vibrant Tricolor backgrounds forced to remain bold and vivid */
-            --bg-main: linear-gradient(180deg, 
-                #ff9933 0%, 
-                #ffb366 15%,
-                #ffffff 45%, 
-                #ffffff 55%, 
-                #33cc33 85%,
-                #229922 100%
-            );
+            /* Sophisticated, subtle newsroom palette */
+            --bg-main: #f9f9fb;
             --bg-card: #ffffff;
-            --text-primary: #111111;
-            --text-secondary: #222222;
-            --text-muted: #555555;
-            --border: #111111;
-            --accent-saffron: #ff671f;
-            --accent-green: #046a38;
-            --accent-blue: #06038d;
-            --map-fill: #f1f5f9;
-            --map-stroke: #111111;
-            --intensity-high: #b91c1c;
+            --text-primary: #111424;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --border-dark: #111424;
+            --flag-saffron: #ff671f;
+            --flag-green: #046a38;
+            --flag-blue: #06038d;
+            
+            --intensity-high: #dc2626;
             --intensity-med: #d97706;
-            --intensity-low: #15803d;
+            --intensity-low: #16a34a;
             --font-scale: 1;
         }
 
         [data-theme="dark"] {
-            /* Deep glowing tricolor blends for pitch black dark mode */
-            --bg-main: linear-gradient(180deg, 
-                #3d1a00 0%, 
-                #000000 25%, 
-                #000000 75%, 
-                #002407 100%
-            );
-            --bg-card: #111111;
-            --text-primary: #ffffff;
-            --text-secondary: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border: #ffffff;
-            --map-fill: #222222;
-            --map-stroke: #ffffff;
+            /* Premium, uniform low-glare pitch black theme */
+            --bg-main: #000000;
+            --bg-card: #0b0f19;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border: #1e293b;
+            --border-dark: #f8fafc;
+            --flag-saffron: #ff8038;
+            --flag-green: #058249;
         }
 
         * {
@@ -61,10 +50,9 @@
 
         body {
             background: var(--bg-main);
-            background-attachment: fixed;
             min-height: 100vh;
             color: var(--text-primary);
-            padding: 30px 15px;
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
             transition: background 0.2s ease, color 0.2s ease;
@@ -72,16 +60,16 @@
 
         .wrapper {
             width: 100%;
-            max-width: 960px;
+            max-width: 1040px;
         }
 
         header {
             display: flex;
             flex-direction: column;
-            border-bottom: 6px double var(--border);
-            padding-bottom: 20px;
-            margin-bottom: 28px;
-            gap: 16px;
+            border-bottom: 2px solid var(--border-dark);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            gap: 20px;
         }
 
         .header-top {
@@ -91,62 +79,59 @@
             width: 100%;
         }
 
-        /* Newspaper Masthead Font Stack & Tricolor Highlight Drop */
+        /* Sophisticated, subtle premium tricolor typographic header */
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: calc(2.8rem * var(--font-scale));
+            font-size: calc(2.6rem * var(--font-scale));
             font-weight: 900;
             font-style: italic;
-            letter-spacing: -1px;
-            background: linear-gradient(90deg, #ff671f 0%, #ff671f 42%, #06038d 48%, #06038d 52%, #046a38 58%, #046a38 100%);
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, var(--flag-saffron) 0%, var(--flag-saffron) 35%, var(--flag-blue) 48%, var(--flag-blue) 52%, var(--flag-green) 65%, var(--flag-green) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1));
         }
         [data-theme="dark"] header h1 {
-            background: linear-gradient(90deg, #ff671f 0%, #ff671f 42%, #ffffff 48%, #ffffff 52%, #046a38 58%, #046a38 100%);
+            background: linear-gradient(90deg, var(--flag-saffron) 0%, var(--flag-saffron) 35%, #ffffff 48%, #ffffff 52%, var(--flag-green) 65%, var(--flag-green) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        /* Cleaned metadata banner matrix */
         .live-sync-bar {
-            background: var(--bg-card);
-            border: 3px solid var(--border);
-            padding: 14px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 14px;
-            font-size: calc(1rem * var(--font-scale));
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            gap: 16px;
+            font-size: calc(0.85rem * var(--font-scale));
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
         }
 
         .location-btn {
-            background: #111111;
-            color: #ffffff;
-            border: 2px solid var(--border);
-            padding: 6px 14px;
-            font-weight: 800;
+            background: transparent;
+            color: var(--flag-saffron);
+            border: 1px solid var(--flag-saffron);
+            padding: 4px 10px;
+            font-weight: 700;
             cursor: pointer;
-            text-transform: uppercase;
-            font-size: calc(0.85rem * var(--font-scale));
+            border-radius: 4px;
+            font-size: calc(0.75rem * var(--font-scale));
+            transition: all 0.2s ease;
         }
-        [data-theme="dark"] .location-btn {
-            background: #ffffff;
-            color: #000000;
+        .location-btn:hover {
+            background: var(--flag-saffron);
+            color: #ffffff;
         }
 
         .digital-clock {
             font-family: monospace;
-            background: var(--text-primary);
-            color: var(--bg-main);
-            padding: 8px 14px;
-            font-weight: 900;
-            font-size: calc(1.1rem * var(--font-scale));
+            font-weight: 700;
+            font-size: calc(1rem * var(--font-scale));
+            color: var(--text-primary);
         }
 
         .header-actions {
@@ -156,112 +141,127 @@
 
         .action-btn {
             background: var(--bg-card);
-            border: 3px solid var(--border);
-            font-size: calc(0.95rem * var(--font-scale));
-            height: 44px;
-            padding: 0 16px;
+            border: 1px solid var(--border);
+            font-size: calc(0.85rem * var(--font-scale));
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: 800;
+            font-weight: 600;
             color: var(--text-primary);
-            text-transform: uppercase;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
 
         .action-btn:hover {
-            background: var(--text-primary);
-            color: var(--bg-main);
+            border-color: var(--text-primary);
         }
 
+        /* Sleek Editorial Navigation Bar */
         .navigation-block {
             display: flex;
-            gap: 12px;
-            margin-bottom: 28px;
+            gap: 8px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
         }
 
-        .home-btn-anchor { flex: 1.2; }
+        .home-btn-anchor { flex: 1; }
 
         .home-btn {
             width: 100%;
-            background: var(--text-primary);
-            color: var(--bg-main);
-            border: 3px solid var(--border);
-            padding: 16px;
-            font-weight: 900;
-            font-size: calc(1.1rem * var(--font-scale));
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 12px;
+            font-weight: 700;
+            font-size: calc(0.9rem * var(--font-scale));
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
 
         .home-btn.active {
-            background: #ff671f;
-            color: #ffffff;
-            border-color: #ff671f;
+            background: var(--text-primary);
+            color: var(--bg-card);
+            border-color: var(--text-primary);
         }
 
         .directions-subgrid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
-            flex: 3;
+            flex: 4;
         }
 
         .zone-btn {
             background: var(--bg-card);
-            border: 3px solid var(--border);
-            color: var(--text-primary);
-            padding: 16px 4px;
-            font-weight: 800;
-            font-size: calc(0.95rem * var(--font-scale));
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 12px 4px;
+            font-weight: 600;
+            font-size: calc(0.9rem * var(--font-scale));
             cursor: pointer;
-            text-transform: uppercase;
+            border-radius: 6px;
             text-align: center;
+            transition: all 0.2s ease;
         }
 
         .zone-btn.active {
-            background: #046a38;
-            color: #ffffff;
-            border-color: #046a38;
+            background: var(--bg-card);
+            color: var(--flag-green);
+            border-color: var(--flag-green);
+            box-shadow: inset 0 -2px 0 var(--flag-green);
         }
 
+        /* Minimal Map Interface Graphic Wrapper */
         .map-section {
             background: var(--bg-card);
-            border: 3px solid var(--border);
-            padding: 30px;
-            margin-bottom: 28px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 32px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
         }
 
         .map-container {
             width: 100%;
-            max-width: 440px;
+            max-width: 400px;
             height: auto;
         }
 
-        /* Standardized High-Contrast Geometric Shape Architecture */
         .map-region {
-            fill: var(--map-fill);
-            stroke: var(--map-stroke);
-            stroke-width: 3;
+            fill: var(--bg-main);
+            stroke: var(--border);
+            stroke-width: 2;
             cursor: pointer;
-            transition: fill 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .map-region:hover {
-            fill: rgba(255, 103, 31, 0.2);
-            stroke: #ff671f;
+            fill: #fff7ed;
+            stroke: var(--flag-saffron);
+        }
+        [data-theme="dark"] .map-region:hover {
+            fill: #1c140c;
         }
 
         .map-region.active-region {
-            fill: #046a38;
-            stroke: #ffffff;
+            fill: #f0fdf4;
+            stroke: var(--flag-green);
+        }
+        [data-theme="dark"] .map-region.active-region {
+            fill: #061c10;
         }
 
         .map-label {
-            fill: var(--text-primary);
-            font-size: 14px;
-            font-weight: 900;
+            fill: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
             pointer-events: none;
             text-anchor: middle;
         }
@@ -269,138 +269,144 @@
         .dashboard-content {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 32px;
         }
 
+        /* Cleaned Grid State Blocks */
         .state-block {
             background: var(--bg-card);
-            border: 3px solid var(--border);
-            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
             display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 28px;
-            animation: fadeIn 0.3s ease;
+            grid-template-columns: 1fr 320px;
+            gap: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            animation: fadeIn 0.25s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .state-header {
-            border-bottom: 4px solid var(--border);
-            padding-bottom: 14px;
-            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .state-name {
-            font-size: calc(1.9rem * var(--font-scale));
-            font-weight: 900;
-            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+            font-size: calc(2rem * var(--font-scale));
+            font-weight: 700;
             letter-spacing: -0.5px;
         }
 
         .refresh-status {
-            font-size: calc(0.95rem * var(--font-scale));
+            font-size: calc(0.8rem * var(--font-scale));
             color: var(--text-muted);
-            font-weight: 800;
-            text-transform: uppercase;
+            font-weight: 500;
         }
 
         .news-list {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 28px;
         }
 
         .news-item {
             position: relative;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--border);
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
         }
         .news-item:last-child { border: none; padding-bottom: 0; }
 
         .news-top-meta {
-            font-size: calc(0.9rem * var(--font-scale));
-            font-weight: 900;
+            font-size: calc(0.75rem * var(--font-scale));
+            font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             letter-spacing: 0.5px;
-            display: inline-block;
-            border-bottom: 2px solid currentColor;
-            padding-bottom: 2px;
         }
 
         .headline {
-            font-size: calc(1.4rem * var(--font-scale));
-            font-weight: 800;
-            line-height: 1.3;
+            font-size: calc(1.3rem * var(--font-scale));
+            font-weight: 700;
+            line-height: 1.35;
             margin-bottom: 8px;
             letter-spacing: -0.2px;
         }
 
         .reasoning {
-            font-size: calc(1.05rem * var(--font-scale));
+            font-size: calc(0.95rem * var(--font-scale));
             color: var(--text-secondary);
             line-height: 1.6;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .src-btn {
-            font-size: calc(0.9rem * var(--font-scale));
+            font-size: calc(0.85rem * var(--font-scale));
             color: var(--text-muted);
-            text-decoration: underline;
-            font-weight: 700;
-            text-transform: uppercase;
+            text-decoration: none;
+            font-weight: 600;
         }
+        .src-btn:hover { color: var(--text-primary); text-decoration: underline; }
 
+        /* Professional Clean Sidebar Panel for Trends */
         .trends-panel {
             background: var(--bg-main);
-            border: 2px solid var(--border);
-            padding: 22px;
+            border-radius: 8px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
+            height: fit-content;
         }
 
         .trend-title {
-            font-size: calc(1.1rem * var(--font-scale));
+            font-size: calc(0.9rem * var(--font-scale));
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--text-primary);
-            font-weight: 900;
+            font-weight: 800;
             margin-bottom: 4px;
-            border-bottom: 3px solid var(--border);
-            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
         }
 
         .trend-row {
             display: flex;
             flex-direction: column;
             gap: 4px;
-            font-size: calc(1rem * var(--font-scale));
         }
         
         .trend-label {
-            font-weight: 900;
+            font-weight: 700;
             text-transform: uppercase;
-            font-size: calc(0.85rem * var(--font-scale));
+            font-size: calc(0.75rem * var(--font-scale));
             color: var(--text-muted);
             letter-spacing: 0.5px;
         }
         .trend-val {
-            font-weight: 800;
-            line-height: 1.4;
+            font-weight: 600;
+            font-size: calc(0.95rem * var(--font-scale));
+            line-height: 1.45;
+            color: var(--text-secondary);
+        }
+
+        @media(max-width: 900px) {
+            .state-block { grid-template-columns: 1fr; gap: 32px; }
         }
 
         @media(max-width: 768px) {
-            body { padding: 16px 8px; }
+            body { padding: 20px 10px; }
             .navigation-block { flex-direction: column; gap: 8px; }
             .directions-subgrid { grid-template-columns: repeat(2, 1fr); }
-            .state-block { grid-template-columns: 1fr; padding: 20px; }
+            .map-section { padding: 20px; }
         }
     </style>
 </head>
@@ -439,7 +445,7 @@
         </div>
 
         <div class="map-section" id="mapSection">
-            <h3 style="margin-bottom: 20px; font-weight:900; font-size: calc(1.2rem * var(--font-scale)); text-transform: uppercase; letter-spacing: -0.5px;">Select a region to read latest news</h3>
+            <h3 style="margin-bottom: 24px; font-weight:700; font-size: calc(1.1rem * var(--font-scale)); color: var(--text-secondary);">Select a region to read latest news</h3>
             <svg class="map-container" viewBox="0 0 400 470">
                 <path class="map-region" id="map-north" d="M 170 140 L 140 100 L 155 40 L 195 20 L 225 55 L 210 115 L 245 140 L 215 180 L 160 170 Z" onclick="handleMapClick('north')"></path>
                 <text x="185" y="95" class="map-label">NORTH</text>
@@ -731,8 +737,8 @@
                         document.getElementById('location-display').innerHTML = `🌐 Location: <span>Lat: ${lat}, Lon: ${lon}</span>`;
                         
                         const mockTemp = Math.floor(26 + (position.coords.latitude % 8));
-                        document.getElementById('sync-weather').innerText = `${mockTemp}°C Modulate Overcast`;
-                        document.getElementById('sync-rain').innerText = mockTemp > 31 ? "12% Trace Risk" : "70% Active Showers Tracked";
+                        document.getElementById('sync-weather').innerText = `${mockTemp}°C Intermittent Overcast`;
+                        document.getElementById('sync-rain').innerText = mockTemp > 31 ? "12% Trace Risk" : "70% Showers Pending";
                     },
                     () => {
                         document.getElementById('location-display').innerHTML = `🌐 Location: <span>Kolkata, WB (Default)</span>`;
@@ -788,7 +794,7 @@
                     </div>
                     
                     <div class="trends-panel">
-                        <div class="trend-title">City Trends</div>
+                        <div class="trend-title">Trending in State</div>
                         <div class="trend-row">
                             <span class="trend-label">🌟 Buzz in the City</span>
                             <span class="trend-val">${data.trends.buzz}</span>
@@ -847,7 +853,7 @@
         }
 
         function adjustFont(amount) {
-            currentFontScale = Math.max(0.8, Math.min(1.6, currentFontScale + amount));
+            currentFontScale = Math.max(0.8, Math.min(1.4, currentFontScale + amount));
             document.documentElement.style.setProperty('--font-scale', currentFontScale);
             renderDashboard(activeFilter);
         }
