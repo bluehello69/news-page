@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India Regional FactTracker</title>
+    <title>Always Live | Regional Fact Tracker</title>
     <style>
-        /* CSS Variables for seamless light/dark mode transitions */
         :root {
-            --bg-color: #f8fafc;
-            --container-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --accent-color: #2563eb;
-            --tag-bg: #f1f5f9;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --accent: #0f172a;
+            --accent-glow: rgba(15, 23, 42, 0.05);
+            
+            --intensity-high: #ef4444;
+            --intensity-med: #f59e0b;
+            --intensity-low: #10b981;
         }
 
         [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --container-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --accent-color: #3b82f6;
-            --tag-bg: #334155;
+            --bg-main: #090d16;
+            --bg-card: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #6b7280;
+            --border: #1f2937;
+            --accent: #f9fafb;
+            --accent-glow: rgba(249, 250, 251, 0.07);
         }
 
         * {
@@ -31,244 +36,379 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 20px;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
+            transition: background 0.2s ease;
         }
 
-        .dashboard {
+        .wrapper {
             width: 100%;
-            max-width: 650px;
-            margin-top: 40px;
+            max-width: 800px;
         }
 
-        /* Header Styles */
+        /* Elegant & Sharp Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 16px;
+            margin-bottom: 32px;
         }
 
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
             letter-spacing: -0.5px;
         }
 
         .theme-toggle {
-            background: var(--container-bg);
-            border: 1px solid var(--border-color);
-            font-size: 1.2rem;
-            padding: 8px 12px;
-            border-radius: 50%;
+            background: transparent;
+            border: 1px solid var(--border);
+            font-size: 1.1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
             cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Filter Tabs */
-        .region-tabs {
+        .theme-toggle:hover {
+            background: var(--accent-glow);
+        }
+
+        /* Sharp Navigation Tabs */
+        .zones-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            margin-bottom: 24px;
+            gap: 6px;
+            margin-bottom: 32px;
         }
 
-        .tab-btn {
-            background: var(--container-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 10px 4px;
-            border-radius: 8px;
+        .zone-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 12px;
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
-            text-align: center;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .tab-btn.active {
-            background: var(--accent-color);
-            color: #ffffff;
-            border-color: var(--accent-color);
+        .zone-btn.active {
+            background: var(--accent);
+            color: var(--bg-card);
+            border-color: var(--accent);
         }
 
-        /* News Card Stack */
-        .news-container {
+        /* Dynamic Grid Layout */
+        .dashboard-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .state-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 240px;
+            gap: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        @media(max-width: 680px) {
+            .state-block { grid-template-columns: 1fr; }
+            .zones-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* News Section */
+        .state-header {
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .state-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .refresh-status {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .news-list {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
 
-        .news-card {
-            background: var(--container-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        .news-item {
+            position: relative;
+            padding-left: 14px;
         }
 
-        .card-meta {
+        .news-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 4px;
+            height: 12px;
+            border-radius: 2px;
+            background: var(--i-color);
+        }
+
+        .news-top-meta {
             display: flex;
-            justify-content: space-between;
+            gap: 8px;
             align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .region-tag {
-            background: var(--tag-bg);
-            color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 4px;
             text-transform: uppercase;
+            margin-bottom: 4px;
         }
 
-        .read-time {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .news-title {
-            font-size: 1.1rem;
+        .headline {
+            font-size: 0.95rem;
             font-weight: 600;
             line-height: 1.4;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
 
-        .news-reason {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 16px;
-            padding-left: 12px;
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .source-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent-color);
-            text-decoration: none;
+        .reasoning {
             font-size: 0.85rem;
-            font-weight: 600;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 6px;
         }
 
-        .source-link:hover {
-            text-decoration: underline;
+        .src-btn {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .src-btn:hover { color: var(--accent); }
+
+        /* Indicators Sidebar Panel */
+        .indicators-panel {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .panel-sec-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--border);
+        }
+        .metric-row:last-child { border: none; }
+        
+        .metric-val {
+            font-weight: 600;
         }
     </style>
 </head>
 <body data-theme="light">
 
-    <div class="dashboard">
+    <div class="wrapper">
         <header>
-            <h1>Regional FactTracker</h1>
-            <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">🌙</button>
+            <h1>Always Live</h1>
+            <button class="theme-toggle" id="modeToggle" onclick="toggleTheme()">🌙</button>
         </header>
 
-        <div class="region-tabs">
-            <button class="tab-btn active" onclick="filterRegion('all', this)">All</button>
-            <button class="tab-btn" onclick="filterRegion('north', this)">North</button>
-            <button class="tab-btn" onclick="filterRegion('south', this)">South</button>
-            <button class="tab-btn" onclick="filterRegion('east', this)">East</button>
-            <button class="tab-btn" onclick="filterRegion('west', this)">West</button>
+        <div class="zones-grid">
+            <button class="zone-btn active" onclick="switchZone('all', this)">All</button>
+            <button class="zone-btn" onclick="switchZone('north', this)">North</button>
+            <button class="zone-btn" onclick="switchZone('south', this)">South</button>
+            <button class="zone-btn" onclick="switchZone('east', this)">East</button>
+            <button class="zone-btn" onclick="switchZone('west', this)">West</button>
         </div>
 
-        <div class="news-container" id="newsContainer">
-            <!-- News Items will be loaded by JavaScript dynamically -->
+        <div class="dashboard-content" id="dashboardContent">
+            <!-- Dynamic compilation injections go here -->
         </div>
     </div>
 
     <script>
-        // Centralized Local Database — edit these entries freely to update your dashboard tracker!
-        const newsDatabase = [
+        // Data Store containing curated metrics, regional news structural groups and cycles
+        const masterDatabase = [
             {
-                region: "north",
-                title: "Jammu & Kashmir expands solar micro-grids to 45 alpine villages",
-                reason: "Objective Reason: Part of the regional Green Energy Initiative aiming to replace localized diesel generators, lowering winter energy grid overhead expenses by roughly 35%.",
-                source: "https://example.com/source1"
+                state: "Punjab",
+                zone: "north",
+                lastUpdatedHoursAgo: 2, // simulated cycle timestamp value
+                weather: "31°C Clear",
+                time: "IST (UTC+5:30)",
+                prices: { grocery: "Index 94.2", fuel: "₹96.40/L", resource: "₹875/Cylinder" },
+                news: [
+                    { intensity: "high", tag: "High Impact", title: "Amritsar freight handling yard capacity increased by 40%", reason: "Expansion structural blueprint finalized to handle systemic overflow from border economic corridors.", link: "#" },
+                    { intensity: "med", tag: "Medium Impact", title: "State canal lining project finishes Phase-2 ahead of schedule", reason: "Minimizes baseline water seepage losses across agrarian zones prior to monsoon onset.", link: "#" },
+                    { intensity: "low", tag: "Routine", title: "Digital land registry system migrates to unified cloud data system", reason: "Standard government operations lifecycle upgrade intended to decrease access latencies.", link: "#" }
+                ]
             },
             {
-                region: "south",
-                title: "Bengaluru Metro structural inspection introduces autonomous ultrasonic rail testing",
-                reason: "Objective Reason: Implemented following standard safety phase schedules to detect invisible micro-fissures in high-traffic commercial corridors without halting active lines.",
-                source: "https://example.com/source2"
+                state: "Tamil Nadu",
+                zone: "south",
+                lastUpdatedHoursAgo: 5, // Triggering the Asterisk rule (>4)
+                weather: "29°C Humid",
+                time: "IST (UTC+5:30)",
+                prices: { grocery: "Index 98.1", fuel: "₹102.63/L", resource: "₹810/Cylinder" },
+                news: [
+                    { intensity: "high", tag: "High Impact", title: "Offshore wind array grid connectivity validated near Thoothukudi", reason: "Fulfills targeted green power matrix conditions set by standard national grid system.", link: "#" },
+                    { intensity: "med", tag: "Medium Impact", title: "Automotive cluster allocates land for battery manufacturing hub", reason: "Local zoning revisions passed to consolidate localized supply chains within manufacturing rings.", link: "#" },
+                    { intensity: "low", tag: "Routine", title: "Madurai historical preservation limits vehicle entry inside perimeter", reason: "Enacted directly to lower structural acoustic vibration damage metrics near stone monuments.", link: "#" }
+                ]
             },
             {
-                region: "east",
-                title: "Odisha completes major deep-water port renovation at Paradip",
-                reason: "Objective Reason: Upgraded to accommodate larger commercial cargo vessels, increasing raw material handling capacity to 15 million metric tonnes annually.",
-                source: "https://example.com/source3"
+                state: "West Bengal",
+                zone: "east",
+                lastUpdatedHoursAgo: 1,
+                weather: "28°C Rainy",
+                time: "IST (UTC+5:30)",
+                prices: { grocery: "Index 91.5", fuel: "₹104.95/L", resource: "₹890/Cylinder" },
+                news: [
+                    { intensity: "high", tag: "High Impact", title: "Haldia refinery initiates operational integration of new processing unit", reason: "Upgrades crude efficiency processing capability profiles by up to 12% baseline.", link: "#" },
+                    { intensity: "med", tag: "Medium Impact", title: "Teesta river siltation clearing machinery deployed at key junctions", reason: "Preventative engineering actions taken to maintain normal navigation channel flow rates.", link: "#" },
+                    { intensity: "low", tag: "Routine", title: "Kolkata historical data center shifts physical hardware arrays", reason: "Part of scheduled structural safety migration measures to flood-protected structural assets.", link: "#" }
+                ]
             },
             {
-                region: "west",
-                title: "Gujarat commissions automated drip irrigation channels over 40,000 hectares",
-                reason: "Objective Reason: Ground water depletion indicators prompted optimization directives to conserve local reservoirs while maintaining agricultural production targets.",
-                source: "https://example.com/source4"
+                state: "Maharashtra",
+                zone: "west",
+                lastUpdatedHoursAgo: 6, // Triggering the Asterisk rule (>4)
+                weather: "27°C Overcast",
+                time: "IST (UTC+5:30)",
+                prices: { grocery: "Index 103.4", fuel: "₹104.21/L", resource: "₹850/Cylinder" },
+                news: [
+                    { intensity: "high", tag: "High Impact", title: "Jawaharlal Nehru Port Trust establishes fully automated cargo hub", reason: "Minimizes standard container dwelling intervals down to competitive global benchmarks.", link: "#" },
+                    { intensity: "med", tag: "Medium Impact", title: "Nagpur smart grid layout incorporates new secondary sub-stations", reason: "Engineered to balanced supply load distribution volatility across peripheral industry zones.", link: "#" },
+                    { intensity: "low", tag: "Routine", title: "Mumbai coastal road introduces real-time acoustic sound walls", reason: "Installed to isolate surrounding urban residential neighborhoods from peak transport noise.", link: "#" }
+                ]
             }
         ];
 
-        // Renders news elements into container
-        function renderNews(filter = 'all') {
-            const container = document.getElementById('newsContainer');
+        function renderDashboard(zoneFilter = 'all') {
+            const container = document.getElementById('dashboardContent');
             container.innerHTML = '';
 
-            const filteredData = filter === 'all' 
-                ? newsDatabase 
-                : newsDatabase.filter(item => item.region === filter);
+            const filteredData = zoneFilter === 'all' 
+                ? masterDatabase 
+                : masterDatabase.filter(item => item.zone === zoneFilter);
 
-            if(filteredData.length === 0) {
-                container.innerHTML = `<div class="news-card" style="text-align:center; color: var(--text-muted);">No reports currently logged under this zone.</div>`;
-                return;
-            }
+            filteredData.forEach(data => {
+                // 4-Hour Refresh Rule Validation Engine
+                let updateString = "Just updated";
+                if (data.lastUpdatedHoursAgo > 4) {
+                    updateString = `* updated ${data.lastUpdatedHoursAgo} hours ago`;
+                } else if (data.lastUpdatedHoursAgo > 0) {
+                    updateString = `updated ${data.lastUpdatedHoursAgo} hours ago`;
+                }
 
-            filteredData.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'news-card';
-                card.innerHTML = `
-                    <div class="card-meta">
-                        <span class="region-tag">${item.region}</span>
-                        <span class="read-time">⏱️ 45s read</span>
+                const block = document.createElement('div');
+                block.className = 'state-block';
+
+                // Map intensity tags to dynamic CSS colors
+                const newsHTML = data.news.map(n => {
+                    let color = 'var(--intensity-low)';
+                    if(n.intensity === 'high') color = 'var(--intensity-high)';
+                    if(n.intensity === 'med') color = 'var(--intensity-med)';
+
+                    return `
+                        <div class="news-item" style="--i-color: ${color}">
+                            <div class="news-top-meta">
+                                <span style="color: ${color}">${n.tag}</span>
+                                <span style="color: var(--text-muted)">• 60s read</span>
+                            </div>
+                            <div class="headline">${n.title}</div>
+                            <div class="reasoning">${n.reason}</div>
+                            <a href="${n.link}" class="src-btn" target="_blank">View Original Source ↗</a>
+                        </div>
+                    `;
+                }).join('');
+
+                block.innerHTML = `
+                    <div>
+                        <div class="state-header">
+                            <span class="state-name">${data.state}</span>
+                            <span class="refresh-status">${updateString}</span>
+                        </div>
+                        <div class="news-list">
+                            ${newsHTML}
+                        </div>
                     </div>
-                    <div class="news-title">${item.title}</div>
-                    <div class="news-reason">${item.reason}</div>
-                    <a href="${item.source}" target="_blank" class="source-link">Read Original Source →</a>
+                    <div class="indicators-panel">
+                        <div>
+                            <div class="panel-sec-title">Regional Sync</div>
+                            <div class="metric-row"><span>Time:</span><span class="metric-val">${data.time}</span></div>
+                            <div class="metric-row"><span>Weather:</span><span class="metric-val">${data.weather}</span></div>
+                        </div>
+                        <div>
+                            <div class="panel-sec-title">Commodity Index</div>
+                            <div class="metric-row"><span>Grocery Basket:</span><span class="metric-val">${data.prices.grocery}</span></div>
+                            <div class="metric-row"><span>Fuel (Petrol):</span><span class="metric-val">${data.prices.fuel}</span></div>
+                            <div class="metric-row"><span>LPG Cylinder:</span><span class="metric-val">${data.prices.resource}</span></div>
+                        </div>
+                    </div>
                 `;
-                container.appendChild(card);
+                container.appendChild(block);
             });
         }
 
-        // Active State Tab Swapper
-        function filterRegion(region, element) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            renderNews(region);
+        function switchZone(zone, buttonElement) {
+            document.querySelectorAll('.zone-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+            renderDashboard(zone);
         }
 
-        // Lightweight Dark/Light Mode Engine
         function toggleTheme() {
             const body = document.body;
-            const btn = document.getElementById('themeBtn');
-            const currentTheme = body.getAttribute('data-theme');
+            const btn = document.getElementById('modeToggle');
+            const isDark = body.getAttribute('data-theme') === 'dark';
             
-            if (currentTheme === 'light') {
-                body.setAttribute('data-theme', 'dark');
-                btn.innerHTML = '☀️';
-            } else {
-                body.setAttribute('data-theme', 'light');
-                btn.innerHTML = '🌙';
-            }
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            btn.innerHTML = isDark ? '🌙' : '☀️';
         }
 
-        // Initial launch population
-        renderNews('all');
+        // Initialize display configuration on launch
+        renderDashboard('all');
     </script>
 </body>
 </html>
