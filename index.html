@@ -116,20 +116,22 @@
             padding-top: 14px;
         }
 
-        .location-btn {
-            background: transparent;
-            color: var(--flag-saffron);
-            border: 1px solid var(--flag-saffron);
-            padding: 4px 10px;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: calc(0.75rem * var(--font-scale));
-            transition: all 0.2s ease;
+        .location-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .location-btn:hover {
-            background: var(--flag-saffron);
-            color: #ffffff;
+
+        .location-select {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            font-weight: 700;
+            border-radius: 4px;
+            font-size: calc(0.8rem * var(--font-scale));
+            cursor: pointer;
+            outline: none;
         }
 
         .digital-clock {
@@ -424,9 +426,20 @@
             </div>
             
             <div class="live-sync-bar">
-                <div id="location-display">🌐 Location: <button class="location-btn" onclick="requestLocation()">Allow Access</button></div>
-                <div>⛅ Weather: <span id="sync-weather">Awaiting Access...</span></div>
-                <div>🌧️ Rain Risk: <span id="sync-rain">Awaiting Access...</span></div>
+                <div class="location-area">
+                    <span>🌐 Location:</span>
+                    <select class="location-select" id="locationPicker" onchange="handleManualLocationChange()">
+                        <option value="detecting" disabled selected>Detecting...</option>
+                        <option value="kolkata">Kolkata, WB</option>
+                        <option value="delhi">New Delhi, DL</option>
+                        <option value="mumbai">Mumbai, MH</option>
+                        <option value="bengaluru">Bengaluru, KA</option>
+                        <option value="chennai">Chennai, TN</option>
+                        <option value="denied">Access Denied</option>
+                    </select>
+                </div>
+                <div>⛅ Weather: <span id="sync-weather">Calculating...</span></div>
+                <div>🌧️ Rain Risk: <span id="sync-rain">Calculating...</span></div>
                 <div class="digital-clock" id="live-clock">00:00:00</div>
             </div>
         </header>
@@ -726,25 +739,59 @@
             }, 1000);
         }
 
-        function requestLocation() {
+        // Automatic sensor loop initialization sequence executing on page load
+        function attemptAutoLocation() {
             if (navigator.geolocation) {
-                document.getElementById('location-display').innerHTML = `🌐 Location: <span>Requesting...</span>`;
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        const lat = position.coords.latitude.toFixed(2);
-                        const lon = position.coords.longitude.toFixed(2);
-                        document.getElementById('location-display').innerHTML = `🌐 Location: <span>Lat: ${lat}, Lon: ${lon}</span>`;
+                        const lat = position.coords.latitude;
+                        // Basic localized bounding logic to choose closest metropolitan node
+                        let matchedOption = "delhi";
+                        if (lat < 16) matchedOption = "chennai";
+                        else if (lat >= 16 && lat < 21) matchedOption = "mumbai";
+                        else if (lat >= 21 && lat < 24) matchedOption = "kolkata";
                         
-                        const mockTemp = Math.floor(26 + (position.coords.latitude % 8));
-                        document.getElementById('sync-weather').innerText = `${mockTemp}°C Intermittent Overcast`;
-                        document.getElementById('sync-rain').innerText = mockTemp > 31 ? "12% Trace Risk" : "70% Showers Pending";
+                        document.getElementById('locationPicker').value = matchedOption;
+                        updateWeatherMetrics(matchedOption);
                     },
                     () => {
-                        document.getElementById('location-display').innerHTML = `🌐 Location: <span>Access Denied</span>`;
+                        // Set dropdown status to Denied explicitly if permission isn't granted
+                        document.getElementById('locationPicker').value = "denied";
                         document.getElementById('sync-weather').innerText = "Unavailable";
                         document.getElementById('sync-rain').innerText = "Unavailable";
                     }
                 );
+            } else {
+                document.getElementById('locationPicker').value = "denied";
+            }
+        }
+
+        function handleManualLocationChange() {
+            const selectedVal = document.getElementById('locationPicker').value;
+            updateWeatherMetrics(selectedVal);
+        }
+
+        function updateWeatherMetrics(cityKey) {
+            const weatherNode = document.getElementById('sync-weather');
+            const rainNode = document.getElementById('sync-rain');
+
+            if (cityKey === 'denied') {
+                weatherNode.innerText = "Unavailable";
+                rainNode.innerText = "Unavailable";
+                return;
+            }
+
+            const weatherMap = {
+                kolkata: { temp: "31°C Heavy Humid", rain: "65% High Probability" },
+                delhi: { temp: "36°C Dry Hazy", rain: "10% Low Chance" },
+                mumbai: { temp: "29°C Overcast Breeze", rain: "80% Heavy Monsoons" },
+                bengaluru: { temp: "24°C Pleasant Clear", rain: "20% Isolated Showers" },
+                chennai: { temp: "33°C Coastal Humid", rain: "15% Light Chance" }
+            };
+
+            if (weatherMap[cityKey]) {
+                weatherNode.innerText = weatherMap[cityKey].temp;
+                rainNode.innerText = weatherMap[cityKey].rain;
             }
         }
 
@@ -864,6 +911,7 @@
 
         document.body.setAttribute('data-theme', 'light');
         initializeClock();
+        attemptAutoLocation();
         renderDashboard('all');
     </script>
 </body>
