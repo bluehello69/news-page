@@ -103,6 +103,21 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
+        .location-btn {
+            background: var(--accent-saffron);
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: calc(0.85rem * var(--font-scale));
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .location-btn:hover {
+            opacity: 0.9;
+        }
+
         .digital-clock {
             font-family: monospace;
             background: var(--accent-blue);
@@ -324,7 +339,6 @@
             font-weight: 700;
         }
 
-        /* Beautiful New-Age Elder Safe Urban Trends Right Column Block */
         .trends-panel {
             background: rgba(15, 23, 42, 0.04);
             border: 3px solid var(--border);
@@ -388,9 +402,9 @@
             </div>
             
             <div class="live-sync-bar">
-                <div>🌐 Location: <span id="sync-city">Detecting...</span></div>
-                <div>⛅ Weather: <span id="sync-weather">Calculating Index...</span></div>
-                <div>🌧️ Rain Risk: <span id="sync-rain">Checking Radar...</span></div>
+                <div id="location-display">🌐 Location: <button class="location-btn" onclick="requestLocation()">Allow Location Access</button></div>
+                <div>⛅ Weather: <span id="sync-weather">Awaiting Permission...</span></div>
+                <div>🌧️ Rain Risk: <span id="sync-rain">Awaiting Permission...</span></div>
                 <div class="digital-clock" id="live-clock">00:00:00</div>
             </div>
         </header>
@@ -564,7 +578,7 @@
               news: [
                 { intensity: "high", tag: "High Impact", title: "Indore automated solid processing plant expanded", reason: "Boosts volume processing metrics safely by a 25% allocation value." },
                 { intensity: "med", tag: "Medium Impact", title: "Narmada water transit main layout canal lines finished", reason: "Feeds bulk volumes directly into secondary regional handling points." },
-                { intensity: "low", tag: "Routine", title: "Bhopal metro line subsystem electrification paths tested", reason: "Standard engineering safety checklist execution phase." }
+                { intensity: "low", tag: "Routine", title: "Bhopal metro rail electrification layout tested", reason: "Standard sub-station performance validation tracks complete." }
             ]},
             { state: "Maharashtra", zone: "west", logHour: "23:55", 
               trends: { buzz: "Financial district operations handle massive network volumes", talk: "JNPT container dwelling interval optimization packages", featured: "Nagpur smart grid substation auto-balancing systems", sports: "Mumbai Marathon route environmental safety check phase", tech: "Redundant cross-region cloud data storage systems" },
@@ -683,28 +697,36 @@
         let currentFontScale = 1.0;
         let activeFilter = 'all';
 
-        function initializeSensors() {
+        function initializeClock() {
             setInterval(() => {
                 const now = new Date();
                 document.getElementById('live-clock').innerText = now.toTimeString().split(' ')[0];
             }, 1000);
+        }
 
+        // Controlled sensor activation executed explicitly upon clicking the button
+        function requestLocation() {
             if (navigator.geolocation) {
+                document.getElementById('location-display').innerHTML = `🌐 Location: <span>Requesting...</span>`;
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const lat = position.coords.latitude.toFixed(2);
                         const lon = position.coords.longitude.toFixed(2);
-                        document.getElementById('sync-city').innerText = `Lat: ${lat}, Lon: ${lon}`;
+                        document.getElementById('location-display').innerHTML = `🌐 Location: <span>Lat: ${lat}, Lon: ${lon}</span>`;
+                        
                         const mockTemp = Math.floor(26 + (position.coords.latitude % 8));
                         document.getElementById('sync-weather').innerText = `${mockTemp}°C Modulate Overcast`;
                         document.getElementById('sync-rain').innerText = mockTemp > 31 ? "12% Trace Risk" : "70% Active Showers Tracked";
                     },
                     () => {
-                        document.getElementById('sync-city').innerText = "Kolkata, WB";
+                        // Secure Fail-safe defaults if access is blocked by client browser policies
+                        document.getElementById('location-display').innerHTML = `🌐 Location: <span>Kolkata, WB (Default)</span>`;
                         document.getElementById('sync-weather').innerText = "29°C Heavy Humid";
                         document.getElementById('sync-rain').innerText = "60% Probability";
                     }
                 );
+            } else {
+                document.getElementById('location-display').innerHTML = `🌐 Location: <span>Not Supported</span>`;
             }
         }
 
@@ -752,7 +774,6 @@
                         <div class="news-list">${newsHTML}</div>
                     </div>
                     
-                    <!-- Dynamic City Specific Trends Component Panel -->
                     <div class="trends-panel">
                         <div class="trend-title">City Trends</div>
                         <div class="trend-row">
@@ -823,7 +844,7 @@
         }
 
         document.body.setAttribute('data-theme', 'light');
-        initializeSensors();
+        initializeClock();
         renderDashboard('all');
     </script>
 </body>
