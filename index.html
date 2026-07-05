@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Always Live | Regional Fact Tracker</title>
+    <title>Always Live | National Fact Tracker</title>
     <style>
         :root {
             --bg-main: #f8fafc;
@@ -49,10 +49,9 @@
 
         .wrapper {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
         }
 
-        /* Elegant & Sharp Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -82,11 +81,8 @@
             justify-content: center;
         }
 
-        .theme-toggle:hover {
-            background: var(--accent-glow);
-        }
+        .theme-toggle:hover { background: var(--accent-glow); }
 
-        /* Sharp Navigation Tabs */
         .zones-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -113,7 +109,6 @@
             border-color: var(--accent);
         }
 
-        /* Dynamic Grid Layout */
         .dashboard-content {
             display: flex;
             flex-direction: column;
@@ -126,17 +121,16 @@
             border-radius: 8px;
             padding: 24px;
             display: grid;
-            grid-template-columns: 1fr 240px;
+            grid-template-columns: 1fr 260px;
             gap: 24px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
-        @media(max-width: 680px) {
+        @media(max-width: 768px) {
             .state-block { grid-template-columns: 1fr; }
             .zones-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* News Section */
         .state-header {
             border-bottom: 1px dashed var(--border);
             padding-bottom: 8px;
@@ -149,7 +143,6 @@
         .state-name {
             font-size: 1.25rem;
             font-weight: 700;
-            text-transform: capitalize;
         }
 
         .refresh-status {
@@ -212,7 +205,6 @@
         }
         .src-btn:hover { color: var(--accent); }
 
-        /* Indicators Sidebar Panel */
         .indicators-panel {
             background: var(--bg-main);
             border: 1px solid var(--border);
@@ -221,6 +213,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            height: fit-content;
         }
 
         .panel-sec-title {
@@ -229,7 +222,7 @@
             letter-spacing: 0.5px;
             color: var(--text-muted);
             font-weight: 700;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .metric-row {
@@ -239,11 +232,13 @@
             font-weight: 500;
             padding-bottom: 4px;
             border-bottom: 1px solid var(--border);
+            gap: 10px;
         }
         .metric-row:last-child { border: none; }
         
         .metric-val {
             font-weight: 600;
+            text-align: right;
         }
     </style>
 </head>
@@ -263,66 +258,55 @@
             <button class="zone-btn" onclick="switchZone('west', this)">West</button>
         </div>
 
-        <div class="dashboard-content" id="dashboardContent">
-            <!-- Dynamic compilation injections go here -->
-        </div>
+        <div class="dashboard-content" id="dashboardContent"></div>
     </div>
 
     <script>
-        // Data Store containing curated metrics, regional news structural groups and cycles
+        // Complete structural template mapping all Indian States & Territories
         const masterDatabase = [
-            {
-                state: "Punjab",
-                zone: "north",
-                lastUpdatedHoursAgo: 2, // simulated cycle timestamp value
-                weather: "31°C Clear",
-                time: "IST (UTC+5:30)",
-                prices: { grocery: "Index 94.2", fuel: "₹96.40/L", resource: "₹875/Cylinder" },
-                news: [
-                    { intensity: "high", tag: "High Impact", title: "Amritsar freight handling yard capacity increased by 40%", reason: "Expansion structural blueprint finalized to handle systemic overflow from border economic corridors.", link: "#" },
-                    { intensity: "med", tag: "Medium Impact", title: "State canal lining project finishes Phase-2 ahead of schedule", reason: "Minimizes baseline water seepage losses across agrarian zones prior to monsoon onset.", link: "#" },
-                    { intensity: "low", tag: "Routine", title: "Digital land registry system migrates to unified cloud data system", reason: "Standard government operations lifecycle upgrade intended to decrease access latencies.", link: "#" }
-                ]
-            },
-            {
-                state: "Tamil Nadu",
-                zone: "south",
-                lastUpdatedHoursAgo: 5, // Triggering the Asterisk rule (>4)
-                weather: "29°C Humid",
-                time: "IST (UTC+5:30)",
-                prices: { grocery: "Index 98.1", fuel: "₹102.63/L", resource: "₹810/Cylinder" },
-                news: [
-                    { intensity: "high", tag: "High Impact", title: "Offshore wind array grid connectivity validated near Thoothukudi", reason: "Fulfills targeted green power matrix conditions set by standard national grid system.", link: "#" },
-                    { intensity: "med", tag: "Medium Impact", title: "Automotive cluster allocates land for battery manufacturing hub", reason: "Local zoning revisions passed to consolidate localized supply chains within manufacturing rings.", link: "#" },
-                    { intensity: "low", tag: "Routine", title: "Madurai historical preservation limits vehicle entry inside perimeter", reason: "Enacted directly to lower structural acoustic vibration damage metrics near stone monuments.", link: "#" }
-                ]
-            },
-            {
-                state: "West Bengal",
-                zone: "east",
-                lastUpdatedHoursAgo: 1,
-                weather: "28°C Rainy",
-                time: "IST (UTC+5:30)",
-                prices: { grocery: "Index 91.5", fuel: "₹104.95/L", resource: "₹890/Cylinder" },
-                news: [
-                    { intensity: "high", tag: "High Impact", title: "Haldia refinery initiates operational integration of new processing unit", reason: "Upgrades crude efficiency processing capability profiles by up to 12% baseline.", link: "#" },
-                    { intensity: "med", tag: "Medium Impact", title: "Teesta river siltation clearing machinery deployed at key junctions", reason: "Preventative engineering actions taken to maintain normal navigation channel flow rates.", link: "#" },
-                    { intensity: "low", tag: "Routine", title: "Kolkata historical data center shifts physical hardware arrays", reason: "Part of scheduled structural safety migration measures to flood-protected structural assets.", link: "#" }
-                ]
-            },
-            {
-                state: "Maharashtra",
-                zone: "west",
-                lastUpdatedHoursAgo: 6, // Triggering the Asterisk rule (>4)
-                weather: "27°C Overcast",
-                time: "IST (UTC+5:30)",
-                prices: { grocery: "Index 103.4", fuel: "₹104.21/L", resource: "₹850/Cylinder" },
-                news: [
-                    { intensity: "high", tag: "High Impact", title: "Jawaharlal Nehru Port Trust establishes fully automated cargo hub", reason: "Minimizes standard container dwelling intervals down to competitive global benchmarks.", link: "#" },
-                    { intensity: "med", tag: "Medium Impact", title: "Nagpur smart grid layout incorporates new secondary sub-stations", reason: "Engineered to balanced supply load distribution volatility across peripheral industry zones.", link: "#" },
-                    { intensity: "low", tag: "Routine", title: "Mumbai coastal road introduces real-time acoustic sound walls", reason: "Installed to isolate surrounding urban residential neighborhoods from peak transport noise.", link: "#" }
-                ]
-            }
+            // NORTH ZONE
+            { state: "Punjab", zone: "north", lastUpdatedHoursAgo: 2, weather: "31°C Clear", time: "IST", prices: { grocery: "Index 94.2", fuel: "₹96.40/L", resource: "₹875/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Amritsar freight handling yard capacity increased by 40%", reason: "Expansion structural blueprint finalized to handle systemic overflow.", link: "#" }, { intensity: "med", tag: "Medium Impact", title: "State canal lining project finishes Phase-2 ahead of schedule", reason: "Minimizes baseline water seepage losses across agrarian zones.", link: "#" }, { intensity: "low", tag: "Routine", title: "Digital land registry system migrates to cloud arrays", reason: "Standard government operations lifecycle upgrade.", link: "#" } ] },
+            { state: "Haryana", zone: "north", lastUpdatedHoursAgo: 1, weather: "33°C Clear", time: "IST", prices: { grocery: "Index 95.1", fuel: "₹95.24/L", resource: "₹880/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Gurugram drainage system allocation approved", reason: "Infrastructure upgrade to handle sudden rainfall volumes.", link: "#" }, { intensity: "med", tag: "Medium", title: "New solar farming subsidies distributed", reason: "Incentivizing cleaner self-generation options for rural setups.", link: "#" }, { intensity: "low", tag: "Routine", title: "Inter-state bus terminal renovation begins", reason: "Routine modernization framework update.", link: "#" } ] },
+            { state: "Himachal Pradesh", zone: "north", lastUpdatedHoursAgo: 5, weather: "22°C Rain", time: "IST", prices: { grocery: "Index 99.0", fuel: "₹95.80/L", resource: "₹910/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "National Highway structural monitoring sensors deployed", reason: "Proactive automated landslide warning systems installed along slopes.", link: "#" }, { intensity: "med", tag: "Medium", title: "Cold-storage processing chain expanded", reason: "Aims to minimize transit spoilage of seasonal regional agricultural yields.", link: "#" }, { intensity: "low", tag: "Routine", title: "Shimla pedestrian zone rules modified", reason: "Adjusted to regulate heavy weekend foot traffic density safely.", link: "#" } ] },
+            { state: "Uttarakhand", zone: "north", lastUpdatedHoursAgo: 3, weather: "24°C Overcast", time: "IST", prices: { grocery: "Index 96.5", fuel: "₹94.00/L", resource: "₹895/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Garhwal ecological buffer zones designated", reason: "Implemented to monitor shifting soil metrics in high altitude zones.", link: "#" }, { intensity: "med", tag: "Medium", title: "Hydroelectric station upgrades completed", reason: "Turbine maintenance cycles finished to prevent generation loss.", link: "#" }, { intensity: "low", tag: "Routine", title: "Dehradun smart traffic trial launched", reason: "Adaptive signal timing modification experiments.", link: "#" } ] },
+            { state: "Rajasthan", zone: "north", lastUpdatedHoursAgo: 2, weather: "38°C Dry", time: "IST", prices: { grocery: "Index 93.8", fuel: "₹104.88/L", resource: "₹860/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Thar solar park Phase-4 online integration complete", reason: "Adds 500MW capacity directly to the national grid network system.", link: "#" }, { intensity: "med", tag: "Medium", title: "Indira Gandhi canal maintenance shutdown ends", reason: "Scheduled desiltation structural processes successfully closed out.", link: "#" }, { intensity: "low", tag: "Routine", title: "Jaipur fort restoration scaffolding installed", reason: "Regular maintenance preservation cycles.", link: "#" } ] },
+            { state: "Uttar Pradesh", zone: "north", lastUpdatedHoursAgo: 1, weather: "34°C Humid", time: "IST", prices: { grocery: "Index 91.2", fuel: "₹94.65/L", resource: "₹850/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Expressway logistics hubs land allocation finalized", reason: "Strategic corridors selected to host new distribution centers.", link: "#" }, { intensity: "med", tag: "Medium", title: "Varansi river terminal tracking upgrade active", reason: "Automated docking allocation protocols deployed.", link: "#" }, { intensity: "low", tag: "Routine", title: "Noida electronic park internal road works finish", reason: "Final phase connectivity development completed.", link: "#" } ] },
+            { state: "Jammu & Kashmir (UT)", zone: "north", lastUpdatedHoursAgo: 3, weather: "20°C Clear", time: "IST", prices: { grocery: "Index 97.4", fuel: "₹97.50/L", resource: "₹920/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Alpine solar micro-grids online across 45 villages", reason: "Replaces traditional localized winter generation methods safely.", link: "#" }, { intensity: "med", tag: "Medium", title: "Chenab bridge structural sensors integrated", reason: "Continuous automatic loading and oscillation logging initiated.", link: "#" }, { intensity: "low", tag: "Routine", title: "Srinagar handicraft identity portal launched", reason: "Provides direct tracking options for localized verified artisans.", link: "#" } ] },
+            { state: "Ladakh (UT)", zone: "north", lastUpdatedHoursAgo: 6, weather: "14°C Windy", time: "IST", prices: { grocery: "Index 105.0", fuel: "₹102.10/L", resource: "₹980/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Geothermal testing station begins deep test phase", reason: "Evaluating baseline structural output capabilities near Puga.", link: "#" }, { intensity: "med", tag: "Medium", title: "Leh high-altitude greenhouse arrays expanded", reason: "Subsidized to boost localized food supply chains during winter locks.", link: "#" }, { intensity: "low", tag: "Routine", title: "Zanskar telecom line testing finalized", reason: "Routine fiber-optic link resilience assessment complete.", link: "#" } ] },
+            { state: "Delhi (NCT)", zone: "north", lastUpdatedHoursAgo: 1, weather: "35°C Hazy", time: "IST", prices: { grocery: "Index 102.0", fuel: "₹94.72/L", resource: "₹830/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Power grid transformers distribution upgrade complete", reason: "Enacted to mitigate localized phase overloads during peak usage hours.", link: "#" }, { intensity: "med", tag: "Medium", title: "Electric bus depot automated chargers online", reason: "Supports updated multi-route allocation infrastructure rollouts.", link: "#" }, { intensity: "low", tag: "Routine", title: "Ring road signage modernization finishes", reason: "Replacing traditional displays with reflective regulatory units.", link: "#" } ] },
+            { state: "Chandigarh (UT)", zone: "north", lastUpdatedHoursAgo: 4, weather: "32°C Clear", time: "IST", prices: { grocery: "Index 98.2", fuel: "₹96.20/L", resource: "₹850/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Sector-wise rainwater collection channels audited", reason: "Pre-monsoon blockage removal verification processes completed.", link: "#" }, { intensity: "med", tag: "Medium", title: "Sukhna Lake catchment monitoring tracking updated", reason: "Measures automatic inflow accumulation variations dynamically.", link: "#" }, { intensity: "low", tag: "Routine", title: "Cycle track path lighting grid overhauled", reason: "LED conversion initiative targeting secondary sectors completed.", link: "#" } ] },
+
+            // SOUTH ZONE
+            { state: "Tamil Nadu", zone: "south", lastUpdatedHoursAgo: 5, weather: "29°C Humid", time: "IST", prices: { grocery: "Index 98.1", fuel: "₹102.63/L", resource: "₹810/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Offshore wind array grid connectivity validated", reason: "Fulfills targeted green power matrix criteria allocations.", link: "#" }, { intensity: "med", tag: "Medium", title: "Automotive cluster allocates land for battery unit", reason: "Consolidates downstream supply logistics channels inside the ring.", link: "#" }, { intensity: "low", tag: "Routine", title: "Madurai historical preservation traffic limits active", reason: "Lowers structural acoustic vibration stress on core monuments.", link: "#" } ] },
+            { state: "Kerala", zone: "south", lastUpdatedHoursAgo: 2, weather: "27°C Heavy Rain", time: "IST", prices: { grocery: "Index 101.4", fuel: "₹107.56/L", resource: "₹840/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Coastal seawall automated layout framework finalized", reason: "Targeted structural defense reinforcements near high erosion vectors.", link: "#" }, { intensity: "med", tag: "Medium", title: "National waterway cargo route trial succeeds", reason: "Tests fuel efficiency variances using barge transport models.", link: "#" }, { intensity: "low", tag: "Routine", title: "Cochin spice processing quality scanner updated", reason: "Systemic electronic trace standards processing automation.", link: "#" } ] },
+            { state: "Karnataka", zone: "south", lastUpdatedHoursAgo: 1, weather: "30°C Overcast", time: "IST", prices: { grocery: "Index 100.5", fuel: "₹101.94/L", resource: "₹825/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Bengaluru Metro introducing ultrasonic rail scanning", reason: "Standard safety phase testing checks for internal structural anomalies.", link: "#" }, { intensity: "med", tag: "Medium", title: "Tech corridor back-up substation commissioned", reason: "Reduces peak-load fluctuations affecting hardware parks.", link: "#" }, { intensity: "low", tag: "Routine", title: "Mysuru public bicycle sharing racks expanded", reason: "Routine micro-mobility grid density extensions.", link: "#" } ] },
+            { state: "Andhra Pradesh", zone: "south", lastUpdatedHoursAgo: 3, weather: "32°C Humid", time: "IST", prices: { grocery: "Index 96.2", fuel: "₹111.15/L", resource: "₹865/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Visakhapatnam deep water terminal draft deepened", reason: "Enables incoming super-cargo merchant line ships to safely dock.", link: "#" }, { intensity: "med", tag: "Medium", title: "Rayalaseema drip irrigation supply lines completed", reason: "Engineered to limit field water volume usage dynamically.", link: "#" }, { intensity: "low", tag: "Routine", title: "Nellore aquaculture tracking platform active", reason: "Standard digital data logging tools for local farming sectors.", link: "#" } ] },
+            { state: "Telangana", zone: "south", lastUpdatedHoursAgo: 2, weather: "33°C Clear", time: "IST", prices: { grocery: "Index 97.0", fuel: "₹109.66/L", resource: "₹855/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Pharma city water recycling facility operational", reason: "Handles continuous purification loops to protect outer local tables.", link: "#" }, { intensity: "med", tag: "Medium", title: "Hyderabad outer ring road speed warning tools ready", reason: "Automated pattern warning matrices deployed.", link: "#" }, { intensity: "low", tag: "Routine", title: "Secunderabad solar platform arrays expanded", reason: "Standard administrative infrastructure updating programs.", link: "#" } ] },
+            { state: "Puducherry (UT)", zone: "south", lastUpdatedHoursAgo: 4, weather: "30°C Coastal Breeze", time: "IST", prices: { grocery: "Index 95.8", fuel: "₹96.15/L", resource: "₹805/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Promenade structural retaining barrier assessed", reason: "Engineering evaluations verified baseline load capacities.", link: "#" }, { intensity: "med", tag: "Medium", title: "Smart lighting centralization network deployed", reason: "Central console commands output brightness based on ambient moon track data.", link: "#" }, { intensity: "low", tag: "Routine", title: "Botanical gardens drainage lines cleaned", reason: "Routine upkeep ahead of monsoon season.", link: "#" } ] },
+            { state: "Lakshadweep (UT)", zone: "south", lastUpdatedHoursAgo: 7, weather: "28°C Rainy", time: "IST", prices: { grocery: "Index 108.4", fuel: "₹105.30/L", resource: "₹990/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Desalination plant solar converter upgrade finishes", reason: "Eliminates diesel generation needs for fresh water loops entirely.", link: "#" }, { intensity: "med", tag: "Medium", title: "Kavaratti core lagoon ecosystem monitoring markers active", reason: "Continuous tracking arrays verify coral silt data variables.", link: "#" }, { intensity: "low", tag: "Routine", title: "Inter-island communication tower links evaluated", reason: "Routine satellite link backup capability validation testing.", link: "#" } ] },
+            { state: "Andaman & Nicobar (UT)", zone: "south", lastUpdatedHoursAgo: 5, weather: "27°C Rain", time: "IST", prices: { grocery: "Index 106.2", fuel: "₹101.80/L", resource: "₹960/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Great Nicobar deep shipping port geo-surveys finish", reason: "Critical structural data logged for upcoming foundation design layers.", link: "#" }, { intensity: "med", tag: "Medium", title: "Port Blair runway drainage expansion done", reason: "Prevents high volume rainfall pooling on active taxi systems.", link: "#" }, { intensity: "low", tag: "Routine", title: "Island ferry schedules transition to automated platform", reason: "Migrates ticketing allocations to central tracking system dashboards.", link: "#" } ] },
+
+            // EAST ZONE
+            { state: "West Bengal", zone: "east", lastUpdatedHoursAgo: 1, weather: "28°C Rainy", time: "IST", prices: { grocery: "Index 91.5", fuel: "₹104.95/L", resource: "₹890/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Haldia refinery operational integration finalized", reason: "Upgrades raw crude separation yield metrics by 12% baseline values.", link: "#" }, { intensity: "med", tag: "Medium", title: "Teesta river desiltation equipment active", reason: "Maintains optimal draft variables along essential trading segments.", link: "#" }, { intensity: "low", tag: "Routine", title: "Kolkata core hardware data arrays relocated", reason: "Protective transfer into advanced structural flood-safe assets.", link: "#" } ] },
+            { state: "Bihar", zone: "east", lastUpdatedHoursAgo: 3, weather: "33°C Hot", time: "IST", prices: { grocery: "Index 89.4", fuel: "₹107.12/L", resource: "₹915/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Kosi river embankments structural safety check complete", reason: "Reinforcements validated ahead of annual peak discharge timelines.", link: "#" }, { intensity: "med", tag: "Medium", title: "Patna elevated cargo corridor Phase-1 finishes", reason: "Diverts heavy merchant fleet movements around high-density core spaces.", link: "#" }, { intensity: "low", tag: "Routine", title: "Rural power line insulation installations continue", reason: "Standard distribution infrastructure updating framework loops.", link: "#" } ] },
+            { state: "Jharkhand", zone: "east", lastUpdatedHoursAgo: 2, weather: "31°C Clear", time: "IST", prices: { grocery: "Index 92.1", fuel: "₹99.84/L", resource: "₹860/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Jamshedpur industrial water reclaim units active", reason: "Decreases primary river intake extraction baselines by 30%.", link: "#" }, { intensity: "med", tag: "Medium", title: "Coal freight rail link automated shunting operational", reason: "Increases rail yard turn-around performance metrics sharply.", link: "#" }, { intensity: "low", tag: "Routine", title: "Ranchi mining map digitization completes", reason: "Standard geological catalog update logs data into accessible mainframes.", link: "#" } ] },
+            { state: "Odisha", zone: "east", lastUpdatedHoursAgo: 1, weather: "29°C Overcast", time: "IST", prices: { grocery: "Index 93.0", fuel: "₹103.11/L", resource: "₹870/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Paradip deep port extension integration complete", reason: "Allows large dry-bulk carrier ships to safely operate lines.", link: "#" }, { intensity: "med", tag: "Medium", title: "Cyclone monitoring Doppler array commissioned", reason: "Increases atmospheric track observation capabilities across outer bay.", link: "#" }, { intensity: "low", tag: "Routine", title: "Bhubaneswar solar rooftop net metering active", reason: "Integrates commercial solar tracking loops directly into grid panels.", link: "#" } ] },
+            { state: "Sikkim", zone: "east", lastUpdatedHoursAgo: 4, weather: "18°C Misty", time: "IST", prices: { grocery: "Index 99.5", fuel: "₹102.50/L", resource: "₹950/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Teesta hydro flume bypass channels inspected", reason: "Verifies high-velocity rock run resilience values ahead of summer thaw.", link: "#" }, { intensity: "med", tag: "Medium", title: "Organic farm supply cold-locks expanded", reason: "Maintains raw shelf-life preservation factors during high transit delays.", link: "#" }, { intensity: "low", tag: "Routine", title: "Gangtok alternate connection road works start", reason: "Standard alternate bypass layout construction stages.", link: "#" } ] },
+            { state: "Assam", zone: "east", lastUpdatedHoursAgo: 2, weather: "26°C Rain", time: "IST", prices: { grocery: "Index 94.8", fuel: "₹98.24/L", resource: "₹850/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Brahmaputra embankment data telemetry nodes live", reason: "Automated level scanners track pressure fluctuations along structural walls.", link: "#" }, { intensity: "med", tag: "Medium", title: "Guwahati gas grid auxiliary loop complete", reason: "Ensures balanced delivery metrics across adjacent manufacturing zones.", link: "#" }, { intensity: "low", tag: "Routine", title: "Tea auction house digital processing upgraded", reason: "Replaces traditional processing panels with updated rapid systems.", link: "#" } ] },
+            { state: "Arunachal Pradesh", zone: "east", lastUpdatedHoursAgo: 6, weather: "16°C Damp", time: "IST", prices: { grocery: "Index 102.1", fuel: "₹93.20/L", resource: "₹940/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Subansiri transmission line mountain link verified", reason: "Structural load tolerances validated against extreme weather conditions.", link: "#" }, { intensity: "med", tag: "Medium", title: "Border pass all-weather tunnel excavation advances", reason: "Maintains clear connection options bypassing high pass seasonal blockades.", link: "#" }, { intensity: "low", tag: "Routine", title: "Itanagar weather telemetry station automated", reason: "Standard meteorological data reporting upgrade deployment.", link: "#" } ] },
+            { state: "Nagaland", zone: "east", lastUpdatedHoursAgo: 5, weather: "21°C Overcast", time: "IST", prices: { grocery: "Index 99.1", fuel: "₹98.10/L", resource: "₹910/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Kohima-Dimapur highway structural bypass opened", reason: "Reduces commercial transit times through difficult geological segments.", link: "#" }, { intensity: "med", tag: "Medium", title: "Bamboo industry cluster primary drying units ready", reason: "Improves pre-treatment standards using solar heat arrays.", link: "#" }, { intensity: "low", tag: "Routine", title: "Localized community weather station system trial", reason: "Testing performance variables across remote agricultural centers.", link: "#" } ] },
+            { state: "Manipur", zone: "east", lastUpdatedHoursAgo: 4, weather: "23°C Cloudy", time: "IST", prices: { grocery: "Index 98.6", fuel: "₹101.20/L", resource: "₹895/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Imphal logistics yard sorting facility completed", reason: "Optimizes dry bulk distribution flows into regional centers.", link: "#" }, { intensity: "med", tag: "Medium", title: "Loktak Lake filtration sub-channel cleared", reason: "Maintains standard ecosystem inflow speeds to control invasive weeds.", link: "#" }, { intensity: "low", tag: "Routine", title: "State central laboratory testing arrays updated", reason: "Provides newer high-precision calibration metrics dashboards.", link: "#" } ] },
+            { state: "Mizoram", zone: "east", lastUpdatedHoursAgo: 5, weather: "20°C Rain", time: "IST", prices: { grocery: "Index 101.0", fuel: "₹99.40/L", resource: "₹930/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Kaladan transport corridor highway grading complete", reason: "Validates foundation safety limits against seasonal heavy downpours.", link: "#" }, { intensity: "med", tag: "Medium", title: "Aizawl municipal water collection loop updated", reason: "Expands storage reserves through integrated urban collection designs.", link: "#" }, { intensity: "low", tag: "Routine", title: "Regional telecom fiber route splicing audited", reason: "Standard transmission link configuration updates completed.", link: "#" } ] },
+            { state: "Tripura", zone: "east", lastUpdatedHoursAgo: 3, weather: "27°C Overcast", time: "IST", prices: { grocery: "Index 95.2", fuel: "₹99.50/L", resource: "₹880/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Agartala international rail link track testing starts", reason: "Verifies gauge balance dynamics under heavy cargo simulation profiles.", link: "#" }, { intensity: "med", tag: "Medium", title: "Rubber processing cooperative factory upgrades completed", reason: "Standard machinery performance tuning to optimize sheet drying speeds.", link: "#" }, { intensity: "low", tag: "Routine", title: "Border commercial market layout upgraded", reason: "Improves pedestrian safety control patterns via new structural separation grids.", link: "#" } ] },
+            { state: "Meghalaya", zone: "east", lastUpdatedHoursAgo: 2, weather: "19°C Dense Fog", time: "IST", prices: { grocery: "Index 98.4", fuel: "₹97.14/L", resource: "₹890/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Umiam dam spillway structural tracking array online", reason: "Monitors microscopic movement anomalies along primary concrete abutments.", link: "#" }, { intensity: "med", tag: "Medium", title: "Shillong peak connection detour roads complete", reason: "Distributes transit overhead allocations away from city center bottlenecks.", link: "#" }, { intensity: "low", tag: "Routine", title: "Cherrapunji hydro-geological survey data archived", reason: "Standard updates logged within national land tracking mainframes.", link: "#" } ] },
+
+            // WEST & CENTRAL ZONE
+            { state: "Maharashtra", zone: "west", lastUpdatedHoursAgo: 6, weather: "27°C Overcast", time: "IST", prices: { grocery: "Index 103.4", fuel: "₹104.21/L", resource: "₹850/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "JNPT automated cargo terminal commissions cranes", reason: "Minimizes standard container dwelling intervals down to competitive global benchmarks.", link: "#" }, { intensity: "med", tag: "Medium", title: "Nagpur smart grid integrates sub-stations", reason: "Balances sudden supply load volatility shifts safely.", link: "#" }, { intensity: "low", tag: "Routine", title: "Mumbai coastal road acoustic shields completed", reason: "Isolates adjacent residential sectors from transport noise profiles.", link: "#" } ] },
+            { state: "Gujarat", zone: "west", lastUpdatedHoursAgo: 1, weather: "36°C Clear", time: "IST", prices: { grocery: "Index 96.0", fuel: "₹96.40/L", resource: "₹820/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Automated drip irrigation deployed over 40,000 hectares", reason: "Conserves local groundwater tables based on structural depletion warnings.", link: "#" }, { intensity: "med", tag: "Medium", title: "GIFT City backup data pipeline activated", reason: "Establishes redundant fiber loops via independent transmission vectors.", link: "#" }, { intensity: "low", tag: "Routine", title: "Surat diamond cluster common treatment asset active", reason: "Routine environmental compliance optimization steps.", link: "#" } ] },
+            { state: "Goa", zone: "west", lastUpdatedHoursAgo: 3, weather: "29°C Tropical Rain", time: "IST", prices: { grocery: "Index 101.2", fuel: "₹96.60/L", resource: "₹800/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Zuari bridge automated wind alarm active", reason: "Measures high velocity gusts to command dynamic speed restrictions.", link: "#" }, { intensity: "med", tag: "Medium", title: "Mandovi river shipping channel depth validated", reason: "Verifies safe clear variables for inland ore transit barges.", link: "#" }, { intensity: "low", tag: "Routine", title: "Panaji heritage zone electric vehicle loops expand", reason: "Routine sustainable public transit development cycles.", link: "#" } ] },
+            { state: "Madhya Pradesh", zone: "west", lastUpdatedHoursAgo: 2, weather: "33°C Dry", time: "IST", prices: { grocery: "Index 92.5", fuel: "₹106.47/L", resource: "₹880/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Indore automated solid treatment asset expanded", reason: "Increases baseline operational processing capacity thresholds by 25%.", link: "#" }, { intensity: "med", tag: "Medium", title: "Narmada lift irrigation canal pipeline complete", reason: "Delivers water lines directly into secondary regional storage setups.", link: "#" }, { intensity: "low", tag: "Routine", title: "Bhopal metro rail electrification layout tested", reason: "Standard sub-station performance validation tracks complete.", link: "#" } ] },
+            { state: "Chhattisgarh", zone: "west", lastUpdatedHoursAgo: 4, weather: "32°C Clear", time: "IST", prices: { grocery: "Index 90.8", fuel: "₹101.11/L", resource: "₹890/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Bhilai steel plant gas recycling array active", reason: "Captures and reuses waste warmth to reduce base grid demand setups.", link: "#" }, { intensity: "med", tag: "Medium", title: "Raipur bypass industrial rail freight track tested", reason: "Diverts long-haul resource traffic away from inner urban lanes.", link: "#" }, { intensity: "low", tag: "Routine", title: "Korba mining zone reclamation tree buffer tracked", reason: "Standard verification review logging environmental data arrays.", link: "#" } ] },
+            { state: "Dadra & Nagar Haveli and Daman & Diu (UT)", zone: "west", lastUpdatedHoursAgo: 5, weather: "31°C Humid", time: "IST", prices: { grocery: "Index 94.6", fuel: "₹92.40/L", resource: "₹795/Cylinder" }, news: [ { intensity: "high", tag: "High Impact", title: "Daman manufacturing ring underground cable overhaul complete", reason: "Insulates local production systems from weather-induced shorting faults.", link: "#" }, { intensity: "med", tag: "Medium", title: "Diu solar micro-grid monitoring array upgraded", reason: "Optimizes power storage dispersion balances based on real-time load shifts.", link: "#" }, { intensity: "low", tag: "Routine", title: "Silvassa industrial park access road modifications done", reason: "Improves freight transit efficiency metrics through intersections.", link: "#" } ] }
         ];
 
         function renderDashboard(zoneFilter = 'all') {
@@ -334,7 +318,6 @@
                 : masterDatabase.filter(item => item.zone === zoneFilter);
 
             filteredData.forEach(data => {
-                // 4-Hour Refresh Rule Validation Engine
                 let updateString = "Just updated";
                 if (data.lastUpdatedHoursAgo > 4) {
                     updateString = `* updated ${data.lastUpdatedHoursAgo} hours ago`;
@@ -345,7 +328,6 @@
                 const block = document.createElement('div');
                 block.className = 'state-block';
 
-                // Map intensity tags to dynamic CSS colors
                 const newsHTML = data.news.map(n => {
                     let color = 'var(--intensity-low)';
                     if(n.intensity === 'high') color = 'var(--intensity-high)';
@@ -407,7 +389,6 @@
             btn.innerHTML = isDark ? '🌙' : '☀️';
         }
 
-        // Initialize display configuration on launch
         renderDashboard('all');
     </script>
 </body>
